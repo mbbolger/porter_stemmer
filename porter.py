@@ -104,9 +104,6 @@ def step5b(word):
     return word[:-1] if (get_m(word) > 1) and (word.endswith('ll')) else word
 
 def porter_stem(word):
-    count = 0
     for step in [step1a,step1b,step1c,step2,step3,step4,step5a,step5b]:
         word = step(word)
-        print(f'{count}: {word}')
-        count+=1
     return word
