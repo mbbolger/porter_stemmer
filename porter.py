@@ -1,11 +1,11 @@
 def is_vowel(letter):
-    return letter.lower() in 'aeiou'    
+    return letter in 'aeiou'    
 
 def form(word):
     foo = []
     foo.append('V' if is_vowel(word[0]) else 'C')
     for i in word[1:]:
-        typ = 'V' if is_vowel(i) or (i.lower() == 'y' and foo[-1] == 'C') else 'C'
+        typ = 'V' if is_vowel(i) or (i == 'y' and foo[-1] == 'C') else 'C'
         if foo[-1] != typ:
             foo.append(typ)
     return "".join(foo)
@@ -106,6 +106,7 @@ def step5b(word):
     return word[:-1] if (get_m(word) > 1) and (word.endswith('ll')) else word
 
 def porter_stem(word):
+    word = word.lower()
     for step in [step1a,step1b,step1c,step2,step3,step4,step5a,step5b]:
         word = step(word)
     return word
