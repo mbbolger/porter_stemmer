@@ -10,6 +10,9 @@ def form(word):
             foo.append(typ)
     return "".join(foo)
 
+def is_cvc(stem):
+    return 'CVC' == "".join(['V' if ((is_vowel(x) or (x.lower() == 'y')) and (not stem[-1] in 'wxy')) else 'C' for x in stem[-3:]])  
+
 def get_m(word):
     return form(word).count('VC')
 
@@ -24,7 +27,7 @@ def step1a(word):
     return word
 
 def step1b(word):
-    if form(word).count('VC') and word.endswith('eed'):
+    if get_m(word) and word.endswith('eed'):
         return word[:-3] + 'ee'
     for i in ('ed','ing'):
         if word.endswith(i) and ('V' in form(word[:word.rfind(i)])):
@@ -37,8 +40,7 @@ def step1b_part2(stem):
             return stem + 'e'
     if (stem[-1] == stem[-2]):
         return stem if stem[-2:] in ('ll','ss','zz') else stem[:-1]
-    stemform = form(stem)
-    if get_m(word) == 1 and (stemform[-3:] == 'CVC' and not stemform[-1] in ('wxy')):
+    if get_m(stem) == 1 and is_cvc(stem):
         return stem + 'e'
     return stem
 
@@ -96,7 +98,7 @@ def step4(word):
 def step5a(word):
     f = form(word)
     m = get_m(word)
-    if ((m > 1) and (word.endswith('e'))) or (m == 1 and (f[-3:] == 'CVC' and not f[-1] in ('wxy'))):
+    if ((m > 1) and (word.endswith('e'))) or (m == 1 and is_cvc(word)):
         return word[:-1]
     return word
 
